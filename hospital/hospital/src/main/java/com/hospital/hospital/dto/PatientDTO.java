@@ -5,7 +5,7 @@ import lombok.Data;
 import java.time.LocalDate;
 @Data
 public class PatientDTO {
-
+    private Long patientId;
     private String fullName;
     private String phone;
     private String gender;
@@ -18,4 +18,8 @@ public class PatientDTO {
     private String address;
     private Boolean status;
     private Long stateId;
+    private Long clientId;
+
+    private String clientMobileNo;
+
 }

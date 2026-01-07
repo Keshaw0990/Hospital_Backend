@@ -10,4 +10,6 @@ public interface ClientMasterRepository extends JpaRepository<TbClientMaster, Lo
     Optional<TbClientMaster> findByEmailIdAndPassword(String emailId, String password);
 
     TbClientMaster findByEmailId(String emailId);
+
+    Optional<TbClientMaster> findByMobileNo(String mobileNo);
 }

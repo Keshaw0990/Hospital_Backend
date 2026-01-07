@@ -22,8 +22,6 @@ public class SlotService {
     private final DoctorRepository doctorRepo;
 
     private final BookingRepository bookingRepo;
-
-
     // Convert Entity → DTO
     private SlotDTO toDTO(TbSlot slot) {
         SlotDTO dto = new SlotDTO();
@@ -39,10 +37,23 @@ public class SlotService {
         if (slot.getDoctor() != null) {
             dto.setDoctorId(slot.getDoctor().getPkDoctorId());
             dto.setDoctorName(slot.getDoctor().getFullName());
+
+            // ✅ CLIENT ID FROM RELATION
+            if (slot.getDoctor().getDepartment() != null &&
+                    slot.getDoctor().getDepartment().getClient() != null) {
+
+                dto.setClientId(
+                        slot.getDoctor()
+                                .getDepartment()
+                                .getClient()
+                                .getPkClientId()
+                );
+            }
         }
 
         return dto;
     }
+
 
     // Add Slot
     public SlotDTO addSlot(SlotDTO dto) {

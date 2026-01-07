@@ -11,7 +11,7 @@ public class HolidayDTO {
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate holidayDate;
-
+    private Long clientId;
     private String reason;
     private Boolean status;
     private Long doctorId;

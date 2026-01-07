@@ -17,7 +17,7 @@ public class BookingDTO {
     private String stateName;
     private Long doctorId;
     private String doctorName;
-
+    private Long clientId;
     private LocalDate bookingDate;
     private LocalTime startTime;
     private LocalTime endTime;

@@ -4,5 +4,7 @@ import lombok.Data;
 
 @Data
 public class PhoneVerifyRequestDTO {
+
     private String phone;
+    private String clientMobileNo;
 }

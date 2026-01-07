@@ -50,14 +50,28 @@ public class BookingService {
 
         if (p.getStateId() != null) {
             stateRepo.findById(p.getStateId())
-                    .ifPresent(state -> dto.setStateName(state.getStateName()));
+                    .ifPresent(state ->
+                            dto.setStateName(state.getStateName()));
         }
 
         dto.setDoctorId(b.getDoctor().getPkDoctorId());
         dto.setDoctorName(b.getDoctor().getFullName());
 
+        // ✅ CLIENT ID (ONLY ADDITION)
+        if (b.getDoctor().getDepartment() != null &&
+                b.getDoctor().getDepartment().getClient() != null) {
+
+            dto.setClientId(
+                    b.getDoctor()
+                            .getDepartment()
+                            .getClient()
+                            .getPkClientId()
+            );
+        }
+
         return dto;
     }
+
 
     // =========================
     // ADD BOOKING (UNCHANGED)
@@ -148,5 +162,22 @@ public class BookingService {
         );
     }
 
+
+    // =====================================================
+// ✅ BOOKING DETAILS (ON COUNT CLICK)
+// =====================================================
+    public List<BookingDTO> getBookingDetails(
+            LocalDate bookingDate,
+            Long slotId,
+            Long departmentId,
+            Long doctorId
+    ) {
+        return bookingRepo.findBookingDetails(
+                bookingDate,
+                slotId,
+                departmentId,
+                doctorId
+        ).stream().map(this::toDTO).collect(Collectors.toList());
+    }
 
 }

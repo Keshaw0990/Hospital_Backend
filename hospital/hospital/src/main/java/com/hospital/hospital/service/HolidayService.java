@@ -24,6 +24,7 @@ public class HolidayService {
     // =====================================================
     private HolidayDTO toDTO(TbHoliday h) {
         HolidayDTO dto = new HolidayDTO();
+
         dto.setHolidayId(h.getHolidayId());
         dto.setHolidayDate(h.getHolidayDate());
         dto.setReason(h.getReason());
@@ -32,9 +33,23 @@ public class HolidayService {
         if (h.getDoctor() != null) {
             dto.setDoctorId(h.getDoctor().getPkDoctorId());
             dto.setDoctorName(h.getDoctor().getFullName());
+
+            // ✅ CLIENT ID FROM RELATION
+            if (h.getDoctor().getDepartment() != null &&
+                    h.getDoctor().getDepartment().getClient() != null) {
+
+                dto.setClientId(
+                        h.getDoctor()
+                                .getDepartment()
+                                .getClient()
+                                .getPkClientId()
+                );
+            }
         }
+
         return dto;
     }
+
 
     // =====================================================
     // ADD HOLIDAY
@@ -113,25 +128,26 @@ public class HolidayService {
     // =====================================================
     public List<LocalDate> getAvailableDatesForDoctor(Long doctorId) {
 
-        LocalDate startDate = LocalDate.now();          // today
-        LocalDate endDate = startDate.plusDays(9);     // next 10 days
+        LocalDate startDate = LocalDate.now();
 
-        // 1️⃣ Fetch holidays for doctor in next 10 days
+        // Fetch holidays for a reasonable future range (e.g. next 30 days)
         List<TbHoliday> holidays =
                 holidayRepo.findByDoctor_PkDoctorIdAndHolidayDateBetween(
-                        doctorId, startDate, endDate
+                        doctorId,
+                        startDate,
+                        startDate.plusDays(30)
                 );
 
-        // 2️⃣ Convert holiday dates to Set for fast lookup
+        // Convert holiday dates to Set
         Set<LocalDate> holidayDates = holidays.stream()
                 .map(TbHoliday::getHolidayDate)
                 .collect(Collectors.toSet());
 
-        // 3️⃣ Generate available dates
+        // ✅ Always collect EXACTLY 10 available dates
         List<LocalDate> availableDates = new ArrayList<>();
         LocalDate date = startDate;
 
-        while (!date.isAfter(endDate)) {
+        while (availableDates.size() < 10) {
             if (!holidayDates.contains(date)) {
                 availableDates.add(date);
             }

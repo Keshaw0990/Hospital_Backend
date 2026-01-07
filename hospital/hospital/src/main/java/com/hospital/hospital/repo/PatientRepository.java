@@ -7,8 +7,9 @@ import java.util.Optional;
 
 public interface PatientRepository extends JpaRepository<TbPatient, Long> {
 
-    boolean existsByPhone(String phone);
+    // ✅ Correct uniqueness check
+    boolean existsByPhoneAndClientId(String phone, Long clientId);
 
-    Optional<TbPatient> findByPhone(String phone);
-
+    // ✅ Correct phone verification
+    Optional<TbPatient> findByPhoneAndClientId(String phone, Long clientId);
 }

@@ -10,4 +10,5 @@ public class PhoneVerifyDTO {
     private boolean exists;
     private String message;
     private Long patientId;
+    private Long clientId;
 }

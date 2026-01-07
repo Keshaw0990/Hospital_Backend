@@ -2,29 +2,63 @@ package com.hospital.hospital.service;
 
 import com.hospital.hospital.dto.PatientDTO;
 import com.hospital.hospital.dto.PhoneVerifyDTO;
+import com.hospital.hospital.entity.TbClientMaster;
 import com.hospital.hospital.entity.TbPatient;
+import com.hospital.hospital.repo.ClientMasterRepository;
 import com.hospital.hospital.repo.PatientRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class PatientService {
 
     private final PatientRepository patientRepo;
+    private final ClientMasterRepository clientRepo;
 
-    // ADD PATIENT
-    public TbPatient addPatient(PatientDTO dto) {
+    // ============================================================
+    // ENTITY → DTO
+    // ============================================================
+    private PatientDTO toDTO(TbPatient p) {
 
-        // 🔴 VALIDATION: phone already exists
-        if (patientRepo.existsByPhone(dto.getPhone())) {
-            throw new RuntimeException("Patient with this phone number already exists");
+        PatientDTO dto = new PatientDTO();
+
+        dto.setPatientId(p.getPatientId());
+        dto.setFullName(p.getFullName());
+        dto.setPhone(p.getPhone());
+        dto.setGender(p.getGender());
+        dto.setDob(p.getDob());
+        dto.setAddress(p.getAddress());
+        dto.setStatus(p.getStatus());
+        dto.setStateId(p.getStateId());
+
+        // ✅ CLIENT ID
+        dto.setClientId(p.getClientId());
+
+        // ✅ CLIENT MOBILE
+        clientRepo.findById(p.getClientId())
+                .ifPresent(client ->
+                        dto.setClientMobileNo(client.getMobileNo())
+                );
+
+        return dto;
+    }
+
+    // ============================================================
+    // ADD PATIENT (NO CHANGE)
+    // ============================================================
+    public TbPatient addPatient(PatientDTO dto, Long clientId) {
+
+        if (patientRepo.existsByPhoneAndClientId(dto.getPhone(), clientId)) {
+            throw new RuntimeException(
+                    "Patient with this phone already exists for this client"
+            );
         }
 
         TbPatient p = new TbPatient();
-
         p.setFullName(dto.getFullName());
         p.setPhone(dto.getPhone());
         p.setGender(dto.getGender());
@@ -32,11 +66,18 @@ public class PatientService {
         p.setAddress(dto.getAddress());
         p.setStatus(dto.getStatus());
         p.setStateId(dto.getStateId());
+
+        // 🔐 clientId from header
+        p.setClientId(clientId);
+
         return patientRepo.save(p);
     }
 
-    // UPDATE PATIENT
+    // ============================================================
+    // UPDATE PATIENT (NO CHANGE)
+    // ============================================================
     public TbPatient updatePatient(Long id, PatientDTO dto) {
+
         TbPatient p = patientRepo.findById(id)
                 .orElseThrow(() -> new RuntimeException("Patient not found"));
 
@@ -47,39 +88,131 @@ public class PatientService {
         p.setAddress(dto.getAddress());
         p.setStatus(dto.getStatus());
         p.setStateId(dto.getStateId());
+
         return patientRepo.save(p);
     }
 
-    // DELETE PATIENT
+    // ============================================================
+    // DELETE PATIENT (NO CHANGE)
+    // ============================================================
     public void deletePatient(Long id) {
         patientRepo.deleteById(id);
     }
 
-    // GET ALL
-    public List<TbPatient> getAllPatients() {
-        return patientRepo.findAll();
+    // ============================================================
+    // GET ALL (DTO RESPONSE)
+    // ============================================================
+    public List<PatientDTO> getAllPatients() {
+        return patientRepo.findAll()
+                .stream()
+                .map(this::toDTO)
+                .collect(Collectors.toList());
     }
 
-    // GET ONE
-    public TbPatient getPatientById(Long id) {
-        return patientRepo.findById(id)
+    // ============================================================
+    // GET ONE (DTO RESPONSE)
+    // ============================================================
+    public PatientDTO getPatientById(Long id) {
+
+        TbPatient p = patientRepo.findById(id)
                 .orElseThrow(() -> new RuntimeException("Patient not found"));
+
+        return toDTO(p);
     }
 
-    public PhoneVerifyDTO verifyPhone(String phone) {
+    // ============================================================
+    // VERIFY PHONE (NO CHANGE)
+    // ============================================================
 
-        return patientRepo.findByPhone(phone)
+
+
+
+
+
+
+
+
+
+
+//  This is my first corrected code
+
+//    public PhoneVerifyDTO verifyPhoneByClientMobile(
+//            String patientPhone,
+//            String clientMobileNo
+//    ) {
+//
+//        // 1️⃣ Find client using client mobile number
+//        TbClientMaster client = clientRepo.findByMobileNo(clientMobileNo)
+//                .orElseThrow(() ->
+//                        new RuntimeException("Client not found")
+//                );
+//
+//        Long clientId = client.getPkClientId();
+//
+//        // 2️⃣ Check patient phone inside same client
+//        return patientRepo.findByPhoneAndClientId(patientPhone, clientId)
+//                .map(patient -> new PhoneVerifyDTO(
+//                        true,
+//                        "Patient already exists",
+//                        patient.getPatientId(),
+//                        clientId
+//                ))
+//                .orElseGet(() -> new PhoneVerifyDTO(
+//                        false,
+//                        "Patient not exists",
+//                        null,
+//                        null
+//                ));
+//    }
+
+
+
+
+
+    public PhoneVerifyDTO verifyPhoneByClientMobile(
+            String patientPhone,
+            String clientMobileNo
+    ) {
+        // 1️⃣ Find client using client mobile number
+        TbClientMaster client = clientRepo.findByMobileNo(clientMobileNo)
+                .orElseThrow(() ->
+                        new RuntimeException("Client not found")
+                );
+
+        Long clientId = client.getPkClientId();
+
+        // 2️⃣ Check patient phone inside same client
+        return patientRepo.findByPhoneAndClientId(patientPhone, clientId)
                 .map(patient -> new PhoneVerifyDTO(
                         true,
                         "Patient already exists",
-                        patient.getPatientId()
+                        patient.getPatientId(),
+                        clientId
                 ))
                 .orElseGet(() -> new PhoneVerifyDTO(
                         false,
-                        "Patient not found",
-                        null
+                        "Patient not exists",
+                        null,
+                        clientId   // ✅ SEND CLIENT ID EVEN WHEN PATIENT NOT FOUND
                 ));
     }
 
+
+//    public PhoneVerifyDTO verifyPhone(String phone, String OfficeclientId) {
+//
+//        return patientRepo.findByPhoneAndClientId(phone, OfficeclientId)
+//                .map(patient -> new PhoneVerifyDTO(
+//                        true,
+//                        "Patient already exists",
+//                        patient.getPatientId(),
+//                        patient.getClientId()   // ✅ RETURN CLIENT ID
+//                ))
+//                .orElseGet(() -> new PhoneVerifyDTO(
+//                        false,
+//                        "Patient not found",
+//                        null,
+//                        clientId                // ✅ still return clientId
+//                ));
+//    }
 
 }

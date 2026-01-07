@@ -18,6 +18,6 @@ public class SlotDTO {
 
     private Integer capacity;
     private Integer seqNo;
-
+    private Long clientId;
     private Boolean status;
 }

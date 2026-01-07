@@ -62,4 +62,23 @@ public class BookingController {
                 doctorId
         );
     }
+
+    // =====================================================
+// ✅ BOOKING DETAILS API (ON SUMMARY COUNT CLICK)
+// =====================================================
+    @GetMapping("/details")
+    public List<BookingDTO> getBookingDetails(
+            @RequestParam("bookingDate") LocalDate bookingDate,
+            @RequestParam(value = "slotId", required = false) Long slotId,
+            @RequestParam(value = "departmentId", required = false) Long departmentId,
+            @RequestParam(value = "doctorId", required = false) Long doctorId
+    ) {
+        return service.getBookingDetails(
+                bookingDate,
+                slotId,
+                departmentId,
+                doctorId
+        );
+    }
+
 }

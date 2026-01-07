@@ -9,4 +9,7 @@ public interface UserMasterRepository extends JpaRepository<TbUserMaster, Long> 
     Optional<TbUserMaster> findByEmailIdAndPassword(String emailId, String password);
 
     Optional<TbUserMaster> findByEmailId(String emailId);
+
+    // ✅ ADD THIS
+    long countByClient_PkClientId(Long clientId);
 }
