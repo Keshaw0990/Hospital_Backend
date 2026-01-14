@@ -6,15 +6,7 @@ import lombok.Data;
 import java.time.LocalDate;
 
 @Entity
-@Table(
-        name = "tb_patient",
-        uniqueConstraints = {
-                @UniqueConstraint(
-                        name = "uk_patient_phone_client",
-                        columnNames = { "col_phone", "col_client_id" }
-                )
-        }
-)
+@Table(name = "tb_patient")
 @Data
 public class TbPatient {
 

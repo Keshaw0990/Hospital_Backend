@@ -52,12 +52,6 @@ public class PatientService {
     // ============================================================
     public TbPatient addPatient(PatientDTO dto, Long clientId) {
 
-        if (patientRepo.existsByPhoneAndClientId(dto.getPhone(), clientId)) {
-            throw new RuntimeException(
-                    "Patient with this phone already exists for this client"
-            );
-        }
-
         TbPatient p = new TbPatient();
         p.setFullName(dto.getFullName());
         p.setPhone(dto.getPhone());
@@ -67,11 +61,12 @@ public class PatientService {
         p.setStatus(dto.getStatus());
         p.setStateId(dto.getStateId());
 
-        // 🔐 clientId from header
+        // clientId from header
         p.setClientId(clientId);
 
         return patientRepo.save(p);
     }
+
 
     // ============================================================
     // UPDATE PATIENT (NO CHANGE)
@@ -123,16 +118,6 @@ public class PatientService {
     // ============================================================
     // VERIFY PHONE (NO CHANGE)
     // ============================================================
-
-
-
-
-
-
-
-
-
-
 
 //  This is my first corrected code
 

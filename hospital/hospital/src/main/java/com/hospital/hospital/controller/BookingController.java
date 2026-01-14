@@ -2,6 +2,7 @@ package com.hospital.hospital.controller;
 
 import com.hospital.hospital.dto.BookingDTO;
 import com.hospital.hospital.dto.BookingSlotSummaryDTO;
+import com.hospital.hospital.entity.BookingStatus;
 import com.hospital.hospital.service.BookingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -80,5 +81,17 @@ public class BookingController {
                 doctorId
         );
     }
+
+    // =====================================================
+// ✅ UPDATE BOOKING STATUS (VISITED)
+// =====================================================
+    @PutMapping("/{bookingId}/status")
+    public BookingDTO updateBookingStatus(
+            @PathVariable Long bookingId,
+            @RequestParam BookingStatus status
+    ) {
+        return service.updateBookingStatus(bookingId, status);
+    }
+
 
 }

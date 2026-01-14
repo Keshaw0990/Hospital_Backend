@@ -15,4 +15,6 @@ public class DoctorDTO {
 
     private Long clientId;
     private String orgName;
+
+    private Integer dayCount;
 }

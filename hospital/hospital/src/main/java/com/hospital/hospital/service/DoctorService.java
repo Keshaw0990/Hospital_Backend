@@ -27,11 +27,13 @@ public class DoctorService {
         dto.setSpecialty(d.getSpecialty());
         dto.setConsultationDuration(d.getConsultationDuration());
 
+        // ✅ SLOT COUNT MAPPING
+        dto.setDayCount(d.getDayCount());
+
         if (d.getDepartment() != null) {
             dto.setDepartmentId(d.getDepartment().getPkDepartmentId());
             dto.setDepartmentName(d.getDepartment().getName());
 
-            // 🔥 THIS WAS MISSING
             if (d.getDepartment().getClient() != null) {
                 dto.setClientId(d.getDepartment().getClient().getPkClientId());
                 dto.setOrgName(d.getDepartment().getClient().getOrgName());
@@ -40,6 +42,7 @@ public class DoctorService {
 
         return dto;
     }
+
 
 
     public DoctorDTO addDoctor(DoctorDTO dto) {
@@ -54,9 +57,13 @@ public class DoctorService {
         doctor.setConsultationDuration(dto.getConsultationDuration());
         doctor.setDepartment(dept);
 
+        // ✅ NEW
+        doctor.setDayCount(dto.getDayCount());
+
         TbDoctor saved = doctorRepo.save(doctor);
         return toDTO(saved);
     }
+
 
     public List<DoctorDTO> getAllDoctors() {
         return doctorRepo.findAll()
@@ -77,6 +84,7 @@ public class DoctorService {
         doctor.setSpecialty(dto.getSpecialty());
         doctor.setConsultationDuration(dto.getConsultationDuration());
         doctor.setDepartment(dept);
+        doctor.setDayCount(dto.getDayCount());
 
         TbDoctor saved = doctorRepo.save(doctor);
         return toDTO(saved);

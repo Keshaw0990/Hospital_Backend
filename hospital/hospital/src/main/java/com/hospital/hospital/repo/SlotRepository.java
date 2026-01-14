@@ -9,4 +9,6 @@ public interface SlotRepository extends JpaRepository<TbSlot, Long> {
 
     List<TbSlot> findByDoctor_PkDoctorIdAndStatusTrue(Long doctorId);
 
+    long countByDoctor_PkDoctorId(Long doctorId);
+
 }

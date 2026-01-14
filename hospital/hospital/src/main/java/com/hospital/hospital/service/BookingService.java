@@ -180,4 +180,18 @@ public class BookingService {
         ).stream().map(this::toDTO).collect(Collectors.toList());
     }
 
+    // =====================================================
+// ✅ UPDATE BOOKING STATUS BY ID
+// =====================================================
+    public BookingDTO updateBookingStatus(Long bookingId, BookingStatus status) {
+
+        TbBooking booking = bookingRepo.findById(bookingId)
+                .orElseThrow(() -> new RuntimeException("Booking not found"));
+
+        booking.setStatus(status);
+
+        return toDTO(bookingRepo.save(booking));
+    }
+
+
 }

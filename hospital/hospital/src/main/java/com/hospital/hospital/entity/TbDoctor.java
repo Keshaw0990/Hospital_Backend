@@ -32,4 +32,7 @@ public class TbDoctor {
     @ManyToOne
     @JoinColumn(name = "col_department_id")
     private TbDepartment department;
+
+    @Column(name = "col_day_count", nullable = false)
+    private Integer dayCount = 0;
 }

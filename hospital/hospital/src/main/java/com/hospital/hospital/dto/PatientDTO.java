@@ -10,8 +10,8 @@ public class PatientDTO {
     private String phone;
     private String gender;
 
-    // ✅ MATCH YOUR INPUT: 10-09-1998
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM/dd/yyyy")
+    // ✅ UPDATED FORMAT: dd/MM/yyyy
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDate dob;
 
 

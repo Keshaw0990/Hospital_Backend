@@ -124,13 +124,20 @@ public class HolidayService {
     }
 
     // =====================================================
-    // ✅ AVAILABLE DATES FOR NEXT 10 DAYS (EXCLUDING HOLIDAYS)
     // =====================================================
+// ✅ AVAILABLE DATES BASED ON DOCTOR dayCount (EXCLUDING HOLIDAYS)
+// =====================================================
     public List<LocalDate> getAvailableDatesForDoctor(Long doctorId) {
+
+        TbDoctor doctor = doctorRepo.findById(doctorId)
+                .orElseThrow(() ->
+                        new RuntimeException("Doctor not found with ID: " + doctorId));
+
+        int dayCount = doctor.getDayCount(); // ✅ doctor-defined days
 
         LocalDate startDate = LocalDate.now();
 
-        // Fetch holidays for a reasonable future range (e.g. next 30 days)
+        // Fetch holidays for safe future range
         List<TbHoliday> holidays =
                 holidayRepo.findByDoctor_PkDoctorIdAndHolidayDateBetween(
                         doctorId,
@@ -143,11 +150,11 @@ public class HolidayService {
                 .map(TbHoliday::getHolidayDate)
                 .collect(Collectors.toSet());
 
-        // ✅ Always collect EXACTLY 10 available dates
+        // ✅ Collect EXACTLY dayCount available dates
         List<LocalDate> availableDates = new ArrayList<>();
         LocalDate date = startDate;
 
-        while (availableDates.size() < 10) {
+        while (availableDates.size() < dayCount) {
             if (!holidayDates.contains(date)) {
                 availableDates.add(date);
             }
@@ -156,4 +163,5 @@ public class HolidayService {
 
         return availableDates;
     }
+
 }
