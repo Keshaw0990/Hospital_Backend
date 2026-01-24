@@ -11,6 +11,7 @@ public class BookingDTO {
 
     private Long patientId;
     private String patientName;
+    private String patientGender;
     private String patientAddress;
     private String patientPhone;
     private Long stateId;
@@ -25,4 +26,5 @@ public class BookingDTO {
     private String slotName;
     private String bookingNo;
     private String status;
+    private LocalDate patientDob;
 }

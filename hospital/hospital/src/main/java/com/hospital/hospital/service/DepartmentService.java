@@ -20,13 +20,18 @@ public class DepartmentService {
 
     // Convert Entity → DTO
     private DepartmentDTO toDTO(TbDepartment d) {
+        if (d.getClient() == null) {
+            return null; // skip invalid row
+        }
+
         DepartmentDTO dto = new DepartmentDTO();
         dto.setDepartmentId(d.getPkDepartmentId());
         dto.setName(d.getName());
         dto.setClientId(d.getClient().getPkClientId());
-        dto.setClientName(d.getClient().getOrgName()); // <-- correct mapping
+        dto.setClientName(d.getClient().getOrgName());
         return dto;
     }
+
 
 
     // Convert DTO → Entity for CREATE or UPDATE
@@ -85,8 +90,10 @@ public class DepartmentService {
         return deptRepo.findAll()
                 .stream()
                 .map(this::toDTO)
+                .filter(java.util.Objects::nonNull)
                 .collect(Collectors.toList());
     }
+
 
     // GET BY CLIENT
     public List<DepartmentDTO> getDepartmentsByClient(Long clientId) {

@@ -145,6 +145,7 @@ public class PatientController {
                             false,
                             "Patient phone and client mobile are required",
                             null,
+                            null,
                             null
                     ));
         }
@@ -152,7 +153,6 @@ public class PatientController {
         Long clientId = null;
 
         try {
-            // 🔹 Try to fetch client ID first
             clientId = clientRepo.findByMobileNo(dto.getClientMobileNo())
                     .map(TbClientMaster::getPkClientId)
                     .orElse(null);
@@ -172,20 +172,20 @@ public class PatientController {
                     .body(new PhoneVerifyDTO(
                             false,
                             ex.getMessage(),
+                            clientId,
                             null,
-                            clientId   // ✅ CLIENT ID INCLUDED
+                            null
                     ));
         } catch (Exception ex) {
             return ResponseEntity.status(500)
                     .body(new PhoneVerifyDTO(
                             false,
                             "Internal server error",
+                            clientId,
                             null,
-                            clientId   // ✅ CLIENT ID INCLUDED
+                            null
                     ));
         }
     }
-
-
 
 }

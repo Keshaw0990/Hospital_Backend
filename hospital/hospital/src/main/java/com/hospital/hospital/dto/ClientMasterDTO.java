@@ -22,4 +22,5 @@ public class ClientMasterDTO {
     private Long roleId;
     private String roleName;
     private String password; // kept as you asked
+    private Integer patientCount;
 }

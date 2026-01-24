@@ -4,6 +4,7 @@ import com.hospital.hospital.dto.*;
 import com.hospital.hospital.entity.TbClientMaster;
 import com.hospital.hospital.entity.TbRoleMaster;
 import com.hospital.hospital.repo.ClientMasterRepository;
+import com.hospital.hospital.repo.PatientRepository;
 import com.hospital.hospital.repo.RoleMasterRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,11 +19,13 @@ public class ClientMasterService {
 
     private final ClientMasterRepository clientRepo;
     private final RoleMasterRepository roleRepo;
+    private final PatientRepository patientRepo; // ✅ ADD THIS
 
     // ============================================================
     // ENTITY → DTO
     // ============================================================
     private ClientMasterDTO toDTO(TbClientMaster c) {
+
         ClientMasterDTO dto = new ClientMasterDTO();
 
         dto.setPkClientId(c.getPkClientId());
@@ -33,12 +36,13 @@ public class ClientMasterService {
         dto.setStatus(c.getStatus());
         dto.setExpiryDate(c.getExpiryDate());
         dto.setClientCount(c.getClientCount());
+        dto.setPatientCount(c.getPatientCount()); // ✅ JUST READ
         dto.setLogo(c.getLogo());
         dto.setCreatedModifiedDate(c.getCreatedModifiedDate());
         dto.setReadOnly(c.getReadOnly());
         dto.setArchiveFlag(c.getArchiveFlag());
         dto.setPassword(c.getPassword());
-        // ROLE
+
         if (c.getRole() != null) {
             dto.setRoleId(c.getRole().getPkRoleId());
             dto.setRoleName(c.getRole().getName());
@@ -46,6 +50,7 @@ public class ClientMasterService {
 
         return dto;
     }
+
 
     // ============================================================
     // GET ALL CLIENTS
@@ -83,6 +88,8 @@ public class ClientMasterService {
         client.setClientCount(dto.getClientCount());
         client.setLogo(dto.getLogo());
 
+        client.setPatientCount(dto.getPatientCount());
+
         client.setCreatedModifiedDate(LocalDateTime.now());
         client.setReadOnly("N");
         client.setArchiveFlag("F");
@@ -117,6 +124,7 @@ public class ClientMasterService {
         client.setClientCount(dto.getClientCount());
         client.setLogo(dto.getLogo());
         client.setCreatedModifiedDate(LocalDateTime.now());
+        client.setPatientCount(dto.getPatientCount());
 
         // 🔁 Update role if provided
         if (dto.getRoleId() != null) {

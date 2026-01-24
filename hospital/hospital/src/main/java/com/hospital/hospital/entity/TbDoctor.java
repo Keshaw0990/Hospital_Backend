@@ -35,4 +35,8 @@ public class TbDoctor {
 
     @Column(name = "col_day_count", nullable = false)
     private Integer dayCount = 0;
+
+    // ONE doctor has MANY medicines
+    @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, orphanRemoval = true)
+    private java.util.List<Medicine> medicines;
 }

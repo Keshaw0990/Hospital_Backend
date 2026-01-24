@@ -67,6 +67,9 @@ public class TbClientMaster {
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
     private List<TbDepartment> departments;
 
+    // ✅ NEW COLUMN
+    @Column(name = "col_patient_count", nullable = false)
+    private Integer patientCount = 0;
 }
 
 

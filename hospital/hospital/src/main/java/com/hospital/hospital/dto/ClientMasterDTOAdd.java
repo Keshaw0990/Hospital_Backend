@@ -18,5 +18,6 @@ public class ClientMasterDTOAdd {
     private String logo;
     private Long roleId;
     private String roleName;
+    private Integer patientCount;
 }
 

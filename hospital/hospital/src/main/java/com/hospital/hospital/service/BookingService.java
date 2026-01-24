@@ -44,9 +44,11 @@ public class BookingService {
         TbPatient p = b.getPatient();
         dto.setPatientId(p.getPatientId());
         dto.setPatientName(p.getFullName());
+        dto.setPatientGender(p.getGender());
         dto.setPatientAddress(p.getAddress());
         dto.setPatientPhone(p.getPhone());
         dto.setStateId(p.getStateId());
+        dto.setPatientDob(p.getDob());   // ✅ DOB ADDED
 
         if (p.getStateId() != null) {
             stateRepo.findById(p.getStateId())
