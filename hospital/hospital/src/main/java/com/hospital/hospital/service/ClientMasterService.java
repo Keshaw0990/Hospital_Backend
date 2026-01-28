@@ -43,10 +43,10 @@ public class ClientMasterService {
         dto.setArchiveFlag(c.getArchiveFlag());
         dto.setPassword(c.getPassword());
 
-        if (c.getRole() != null) {
-            dto.setRoleId(c.getRole().getPkRoleId());
-            dto.setRoleName(c.getRole().getName());
-        }
+//        if (c.getRole() != null) {
+//            dto.setRoleId(c.getRole().getPkRoleId());
+//            dto.setRoleName(c.getRole().getName());
+//        }
 
         return dto;
     }
@@ -100,7 +100,7 @@ public class ClientMasterService {
                         new RuntimeException("Invalid roleId: " + dto.getRoleId())
                 );
 
-        client.setRole(role);
+//        client.setRole(role);
 
         clientRepo.save(client);
         return dto;
@@ -132,7 +132,7 @@ public class ClientMasterService {
                     .orElseThrow(() ->
                             new RuntimeException("Invalid roleId: " + dto.getRoleId())
                     );
-            client.setRole(role);
+//            client.setRole(role);
         }
 
         clientRepo.save(client);
@@ -156,9 +156,9 @@ public class ClientMasterService {
         ClientLoginResponse res = new ClientLoginResponse();
         res.setClientId(client.getPkClientId());
         res.setOrgName(client.getOrgName());
-        res.setRoleId(
-                client.getRole() != null ? client.getRole().getPkRoleId() : null
-        );
+//        res.setRoleId(
+//                client.getRole() != null ? client.getRole().getPkRoleId() : null
+//        );
 
         return res;
     }

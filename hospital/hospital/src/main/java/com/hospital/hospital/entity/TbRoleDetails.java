@@ -38,9 +38,9 @@ public class TbRoleDetails {
     @Column(name = "col_archive_flag") // old: archive_flag
     private String archiveFlag;
 
-    @ManyToOne
-    @JoinColumn(name = "col_client_id", nullable = false) // old: client_id
-    private TbClientMaster client;
+//    @ManyToOne
+//    @JoinColumn(name = "col_client_id", nullable = false) // old: client_id
+//    private TbClientMaster client;
 
     @Column(name = "col_show_in_menu") // old: show_in_menu
     private Byte showInMenu;

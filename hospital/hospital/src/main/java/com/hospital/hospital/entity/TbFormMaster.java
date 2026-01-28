@@ -32,7 +32,7 @@ public class TbFormMaster {
     @Column(name = "col_archive_flag")
     private String archiveFlag;
 
-    @ManyToOne
-    @JoinColumn(name = "col_client_id", nullable = false)
-    private TbClientMaster client;
+//    @ManyToOne
+//    @JoinColumn(name = "col_client_id", nullable = false)
+//    private TbClientMaster client;
 }

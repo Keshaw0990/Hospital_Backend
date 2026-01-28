@@ -35,7 +35,7 @@ public class TbRoleMaster {
     @Column(name = "col_archive_flag")
     private String archiveFlag;
 
-    @ManyToOne
-    @JoinColumn(name = "col_client_id", nullable = false)
-    private TbClientMaster client;
+//    @ManyToOne
+//    @JoinColumn(name = "pk_client_id", nullable = false)
+//    private TbClientMaster client;
 }

@@ -14,6 +14,6 @@ public class RoleMasterDTO {
     private LocalDateTime createdModifiedDate;
     private String readOnly;
     private String archiveFlag;
-    private Long clientId;     // FK
+//    private Long clientId;     // FK
     private String clientName; // optional
 }

@@ -30,7 +30,7 @@ public class RoleDetailsService {
         dto.setReadOnly(rd.getReadOnly());
         dto.setArchiveFlag(rd.getArchiveFlag());
         dto.setCreatedModifiedDate(rd.getCreatedModifiedDate());
-        dto.setClientId(rd.getClient().getPkClientId());
+//        dto.setClientId(rd.getClient().getPkClientId());
 
         // ROLE INFO
         if (rd.getRole() != null) {
@@ -59,10 +59,10 @@ public class RoleDetailsService {
 
     public RoleDetailsDTO addRoleDetails(RoleDetailsDTO dto) {
 
-        if (repo.existsByRole_PkRoleIdAndForm_PkFormIdAndClient_PkClientId(
-                dto.getRoleId(), dto.getFormId(), dto.getClientId())) {
-            throw new RuntimeException("Mapping already exists!");
-        }
+//        if (repo.existsByRole_PkRoleIdAndForm_PkFormIdAndClient_PkClientId(
+//                dto.getRoleId(), dto.getFormId(), dto.getClientId())) {
+//            throw new RuntimeException("Mapping already exists!");
+//        }
 
         TbRoleDetails rd = new TbRoleDetails();
 
@@ -83,7 +83,7 @@ public class RoleDetailsService {
 
         TbClientMaster client = new TbClientMaster();
         client.setPkClientId(dto.getClientId());
-        rd.setClient(client);
+//        rd.setClient(client);
 
         return toDTO(repo.save(rd));
     }
@@ -107,7 +107,7 @@ public class RoleDetailsService {
 
         TbClientMaster client = new TbClientMaster();
         client.setPkClientId(dto.getClientId());
-        rd.setClient(client);
+//        rd.setClient(client);
 
         return toDTO(repo.save(rd));
     }

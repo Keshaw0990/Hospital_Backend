@@ -39,10 +39,10 @@ public class RoleMasterService {
         dto.setReadOnly(role.getReadOnly());
         dto.setArchiveFlag(role.getArchiveFlag());
 
-        if (role.getClient() != null) {
-            dto.setClientId(role.getClient().getPkClientId());
-            dto.setClientName(role.getClient().getOrgName());
-        }
+//        if (role.getClient() != null) {
+//            dto.setClientId(role.getClient().getPkClientId());
+//            dto.setClientName(role.getClient().getOrgName());
+//        }
 
 
         return dto;
@@ -76,11 +76,11 @@ public class RoleMasterService {
         role.setReadOnly("N");
         role.setArchiveFlag("F");
 
-        if (dto.getClientId() != null) {
-            TbClientMaster client = new TbClientMaster();
-            client.setPkClientId(dto.getClientId());
-            role.setClient(client);
-        }
+//        if (dto.getClientId() != null) {
+//            TbClientMaster client = new TbClientMaster();
+//            client.setPkClientId(dto.getClientId());
+//            role.setClient(client);
+//        }
 
 
 
@@ -99,11 +99,11 @@ public class RoleMasterService {
         role.setDescription(dto.getDescription());
         role.setCreatedModifiedDate(LocalDateTime.now());
 
-        if (dto.getClientId() != null) {
-            TbClientMaster client = new TbClientMaster();
-            client.setPkClientId(dto.getClientId());
-            role.setClient(client);
-        }
+//        if (dto.getClientId() != null) {
+//            TbClientMaster client = new TbClientMaster();
+//            client.setPkClientId(dto.getClientId());
+//            role.setClient(client);
+//        }
 
         TbRoleMaster updated = repo.save(role);
         return toDTO(updated);

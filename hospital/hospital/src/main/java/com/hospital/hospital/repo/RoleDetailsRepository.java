@@ -14,5 +14,5 @@ public interface RoleDetailsRepository extends JpaRepository<TbRoleDetails, Long
     @Query("SELECT rd FROM TbRoleDetails rd WHERE rd.role.pkRoleId = :roleId ORDER BY rd.seqNo ASC")
     List<TbRoleDetails> findMappingByRoleId(@Param("roleId") Long roleId);
 
-    boolean existsByRole_PkRoleIdAndForm_PkFormIdAndClient_PkClientId(Long roleId, Long formId, Long clientId);
+//    boolean existsByRole_PkRoleIdAndForm_PkFormIdAndClient_PkClientId(Long roleId, Long formId, Long clientId);
 }

@@ -29,9 +29,9 @@ public class TbClientMaster {
     @Column(name = "col_password")
     private String password;
 
-    @ManyToOne
-    @JoinColumn(name = "col_role_id", referencedColumnName = "pk_role_id")
-    private TbRoleMaster role;
+//    @ManyToOne
+//    @JoinColumn(name = "col_role_id", referencedColumnName = "pk_role_id")
+//    private TbRoleMaster role;
 
     @Column(name = "col_status")
     private Byte status;
@@ -48,8 +48,6 @@ public class TbClientMaster {
     @Column(name = "col_archive_flag")
     private String archiveFlag;
 
-    @Column(name = "col_client_id")
-    private Integer clientId;
 
     @Column(name = "col_expiry_date")
     private LocalDate expiryDate;

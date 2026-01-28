@@ -28,7 +28,7 @@ public class FormMasterService {
         dto.setName(f.getName());
         dto.setParentId(f.getParentId());
         dto.setLink(f.getLink());
-        dto.setClientId(f.getClient().getPkClientId());
+//        dto.setClientId(f.getClient().getPkClientId());
         dto.setArchiveFlag(f.getArchiveFlag());
         dto.setReadOnly(f.getReadOnly());
 
@@ -72,7 +72,7 @@ public class FormMasterService {
 
         TbClientMaster client = new TbClientMaster();
         client.setPkClientId(dto.getClientId());
-        form.setClient(client);
+//        form.setClient(client);
 
         TbFormMaster saved = formRepo.save(form);
         return toDTO(saved);
@@ -97,7 +97,7 @@ public class FormMasterService {
 
         TbClientMaster client = new TbClientMaster();
         client.setPkClientId(dto.getClientId());
-        form.setClient(client);
+//        form.setClient(client);
 
         TbFormMaster updated = formRepo.save(form);
         return toDTO(updated);
