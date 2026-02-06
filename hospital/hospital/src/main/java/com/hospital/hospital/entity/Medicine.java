@@ -27,4 +27,7 @@ public class Medicine {
 
     @Column(name = "col_unit")   // ✅ REQUIRED
     private String unit;
+
+    @Column(name = "col_status")
+    private Boolean status;
 }

@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -113,15 +114,27 @@ public class SlotService {
 
     public List<SlotDTO> getAvailableSlotsByDoctorAndDate(Long doctorId, LocalDate date) {
 
+        LocalDate today = LocalDate.now();
+        LocalTime now = LocalTime.now();
+
         return slotRepo.findByDoctor_PkDoctorIdAndStatusTrue(doctorId)
                 .stream()
                 .filter(slot -> {
+
+                    // ✅ 1. SKIP PAST SLOTS IF DATE IS TODAY
+                    if (date.equals(today)) {
+                        if (slot.getEndTime() != null &&
+                                slot.getEndTime().isBefore(now)) {
+                            return false; // skip expired slot
+                        }
+                    }
+
+                    // ✅ 2. CHECK SLOT CAPACITY FOR THAT DATE
                     long bookedCount =
                             bookingRepo.countBySlot_PkSlotIdAndBookingDate(
                                     slot.getPkSlotId(), date
                             );
 
-                    // ✅ SKIP SLOT IF FULL FOR THAT DATE
                     return bookedCount < slot.getCapacity();
                 })
                 .map(this::toDTO)

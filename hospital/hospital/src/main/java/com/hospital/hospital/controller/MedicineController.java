@@ -34,4 +34,16 @@ public class MedicineController {
                 medicineService.getMedicinesByDoctorId(doctorId)
         );
     }
+
+    // 🔹 UPDATE MEDICINE + STATUS (DOCTOR-WISE | SINGLE API)
+    @PutMapping("/doctor/{doctorId}/{medicineId}")
+    public ResponseEntity<MedicineDTO> updateMedicine(
+            @PathVariable Long doctorId,
+            @PathVariable Long medicineId,
+            @RequestBody MedicineDTO dto
+    ) {
+        return ResponseEntity.ok(
+                medicineService.updateDoctorMedicine(doctorId, medicineId, dto)
+        );
+    }
 }

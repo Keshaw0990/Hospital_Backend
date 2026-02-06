@@ -9,5 +9,6 @@ public class MedicineDTO {
     private String medicineName;
     private Long doctorId;
     private String unit;
+    private Boolean status;
 
 }
